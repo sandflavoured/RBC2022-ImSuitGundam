@@ -28,7 +28,7 @@ void setup() {
 
   // Colour sensor set up
   // Samin:
-  
+
 }
 
 void loop() {
@@ -45,15 +45,7 @@ void drive(fwd_sp, turn_sp) {
 
 
 
-void motor_control(sp1, dir1, sp2, dir2) {
-  // Red tap facing left
-  // Right = Out1
-  // Left = Out2
-  //     ENA -  IN1 - IN2 - Function
-  //1.    H      H     H    L
-  //2.    H      H     L    H (Clockwise)
-  //3.    H      L     H    H (Counter Clockwise)
-  //4.    H      L     L    L   
+void motor_control(sp1, dir1, sp2, dir2) { 
 //  analogWrite(ENA, 50);
 
 //  digitalWrite(motor1pin1, HIGH);
