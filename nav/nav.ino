@@ -135,6 +135,9 @@ int read_blu(dir_t dir){
   }
 }
 
+int 
+
+
 int read_grn(dir_t dir){
   // switch color filter to green -- S2 HIGH, S3 HIGH
   
@@ -168,7 +171,7 @@ int read_grn(dir_t dir){
   //3.    H      L     H    H (Counter Clockwise)
   //4.    H      L     L    L   
 void motor_control(int sp1, int dir1, int sp2, int dir2) { 
-  analogWrite(ENA1, sp1);
+  analogWrite(ENA1, sp1);,
   analogWrite(ENA2, sp2);
 
   // Forward
