@@ -1,4 +1,12 @@
-int red, blu, grn;
+// Documentation
+  // Right = Out1
+  // Left = Out2
+  //     ENA -  IN1 - IN2 - Function
+  //1.    H      H     H    L
+  //2.    H      H     L    H (Clockwise)
+  //3.    H      L     H    H (Counter Clockwise)
+  //4.    H      L     L    L   
+
 
 // Constants:
 // Pin allocation
@@ -83,16 +91,15 @@ void read_grn(){
 }
 
 void motor_control(sp1, dir1, sp2, dir2) { 
-//  analogWrite(ENA, 50);
 
-
-// EX: 1
-  // Forward - 1s
+// 
   analogWrite(ENA1, sp1);
   analogWrite(ENA2, sp2);
+
+  // Forward
   digitalWrite(motor1pin1, HIGH);
   digitalWrite(motor1pin2, LOW);
   digitalWrite(motor2pin1, HIGH);
   digitalWrite(motor2pin2, LOW);
-  delay(1000);   
+  delay(1000);
 }
