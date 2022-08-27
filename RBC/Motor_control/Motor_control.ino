@@ -45,8 +45,8 @@ void loop() {
 
 // EX: 1
   // Forward - 1s
-  analogWrite(ENA1, 100);
-  analogWrite(ENA2, 100);
+  analogWrite(ENA1, 255);
+  analogWrite(ENA2, 255);
   digitalWrite(motor1pin1, HIGH);
   digitalWrite(motor1pin2, LOW);
   digitalWrite(motor2pin1, HIGH);
