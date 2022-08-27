@@ -82,10 +82,14 @@ void color_sens(dir_t dir) {
   blu = read_blu(dir);
   grn = read_grn(dir);
 
+  // print values for debug
+  serial.println(dir == RIGHT ? "RIGHT" : "LEFT");
+  
+
   if () return BLACK;
-  else if () return RED;
-  else if () return BLUE;
+  else if () return WHITE;
   else if () return GREEN;
+  else if () return RED;
 
 }
 
@@ -167,14 +171,26 @@ int read_grn(dir_t dir){
   //2.    H      H     L    H (Clockwise)
   //3.    H      L     H    H (Counter Clockwise)
   //4.    H      L     L    L   
-void motor_control(int sp1, int dir1, int sp2, int dir2) { 
+void motor_control(int sp1, rot_t dir1, int sp2, rot_t dir2) { 
   analogWrite(ENA1, sp1);
   analogWrite(ENA2, sp2);
 
-  // Forward
-  digitalWrite(motor1pin1, HIGH);
-  digitalWrite(motor1pin2, LOW);
-  digitalWrite(motor2pin1, HIGH);
-  digitalWrite(motor2pin2, LOW);
-  delay(1000);
+  if (dir1 == FORWARD){
+    digitalWrite(motor1pin1, HIGH);
+    digitalWrite(motor1pin2, LOW);
+  }
+  else if (dir1 == BACKWARD){
+    digitalWrite(motor1pin1, LOW);
+    digitalWrite(motor1pin2, HIGH);
+  }
+
+  if (dir2 == FORWARD){
+    digitalWrite(motor2pin1, LOW);
+    digitalWrite(motor2pin2, HIGH);
+  }
+  else if (dir2 == BACKWARD){
+    digitalWrite(motor2pin1, HIGH);
+    digitalWrite(motor2pin2, LOW);
+  }
+  delay(10);
 }
