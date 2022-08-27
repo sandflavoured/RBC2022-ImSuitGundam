@@ -20,7 +20,12 @@ typedef enum {
 typedef enum {
   LEFT = 0;
   RIGHT
-} dir_t
+} dir_t;
+
+typedef enum {
+  FORWARD = 1,
+  BACKWARD
+} rot_t;
 
 
 void setup() {
@@ -85,31 +90,39 @@ void color_sens() {
 }
 
 void read_red(){
-  // switch color filter to red -- S2 LOW, 
+  // switch color filter to red -- S2 LOW, S3 LOW
 
   digitalWrite(S2, LOW);
   digitalWrite(S3, LOW);
 
   // read value
-  Lcol = digitalRead(outputL);
-  Rcol = digitalRead(outputR);
+  int Lcol = digitalRead(outputL);
+  int Rcol = digitalRead(outputR);
+
+  return 
 }
 
 void read_blu(){
-  // switch color filter to blue
+  // switch color filter to blue -- S2 LOW, S3 HIGH
+  digitalWrite(S2, LOW);
+  digitalWrite(S3, HIGH);
 
   // read value
+  int Lcol = digitalRead(outputL);
+  int Rcol = digitalRead(outputR);
 }
 
 void read_grn(){
-  // switch color filter to green
-
+  // switch color filter to green -- S2 HIGH, S3 HIGH
+  digitalWrite(S2, HIGH);
+  digitalWrite(S3, HIGH);
+  
   // read value
+  int Lcol = digitalRead(outputL);
+  int Rcol = digitalRead(outputR);
 }
 
 void motor_control(sp1, dir1, sp2, dir2) { 
-//  analogWrite(ENA, 50);
-
 
 // EX: 1
   // Forward - 1s
