@@ -11,6 +11,27 @@ typedef enum {
 void setup() {
   // put your setup code here, to run once:
 
+// Constants:
+// Pin allocation
+int ENA1 = 3;
+int motor1pin1 = 7;
+int motor1pin2 = 8;
+int ENA2 = 5; 
+int motor2pin1 = 2;
+int motor2pin2 = 4;
+
+void setup() {
+  // Motor controller set up:
+  pinMode(ENA1, OUTPUT); 
+  pinMode(motor1pin1, OUTPUT); 
+  pinMode(motor1pin2, OUTPUT); 
+  pinMode(ENA2, OUTPUT); 
+  pinMode(motor2pin1, OUTPUT); 
+  pinMode(motor2pin2, OUTPUT);
+
+  // Colour sensor set up
+  // Samin:
+  
 }
 
 void loop() {
