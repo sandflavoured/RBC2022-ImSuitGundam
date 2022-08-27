@@ -44,11 +44,11 @@ void loop() {
 
 
 // EX: 1
-  // Forward - 1s
-  analogWrite(ENA1, 255);
-  analogWrite(ENA2, 255);
-  digitalWrite(motor1pin1, HIGH);
-  digitalWrite(motor1pin2, LOW);
+  // Forward - Wheel calibrated
+  analogWrite(ENA1, 100);  // Right
+  analogWrite(ENA2, 140);  // Left
+  digitalWrite(motor1pin1, LOW);
+  digitalWrite(motor1pin2, HIGH);
   digitalWrite(motor2pin1, HIGH);
   digitalWrite(motor2pin2, LOW);
   delay(1000);   

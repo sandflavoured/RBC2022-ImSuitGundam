@@ -56,17 +56,27 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
-  colorL = color_sens(LEFT);
-  colorR = color_sens(RIGHT);
+  // colorL = color_sens(LEFT);
+  // colorR = color_sens(RIGHT);
+  // navigate(int colorL, int colorR);
+  // drive(fwd, turn);
 
-
-
-  drive(fwd, turn);
+  motor_control(int sp1 = 100, rot_t dir1 = FORWARD, int sp2 = 100, rot_t dir2 = FORWARD)
 }
 
+void navigate(int colorL, int colorR){
+  if(colorL == colorR && colorL == WHITE)
+  {
+    // Arbitrary speed
+    int forward_speed = 100;
+    int turn_speed = 0;
+    drive(forward_speed, turn_speed);
+  }
+
+}
 
 void drive(fwd_sp, turn_sp) {
-
+  
 }
 
 
@@ -177,7 +187,7 @@ int read_grn(dir_t dir){
 
 void motor_control(int sp1, rot_t dir1, int sp2, rot_t dir2) { 
   analogWrite(ENA1, sp1);
-  analogWrite(ENA2, sp2);
+  analogWrite(ENA2, sp2 + 40);
 
   if (dir1 == FORWARD){
     digitalWrite(motor1pin1, HIGH);
