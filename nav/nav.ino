@@ -1,4 +1,7 @@
 // Constants:
+int colorL, colorR;
+
+
 // motor pin allocation
 const int ENA1 = 3;
 const int motor1pin1 = 7;
@@ -8,12 +11,12 @@ const int motor2pin1 = 2;
 const int motor2pin2 = 4;
 
 // sensor inputs
-const int S0 = 2;
-const int S1 = 3;   
-const int S2 = 4;
-const int S3 = 5;
-const int outputL = 6;
-const int outputR = 7;
+const int S0 = 11;
+const int S1 = 13;   
+const int S2 = 9;
+const int S3 = 10;
+const int outputL = 12;
+const int outputR = 6;
 
 typedef enum {
   WHITE = 0,
@@ -23,7 +26,7 @@ typedef enum {
 } color_t;
 
 typedef enum {
-  LEFT = 0;
+  LEFT = 0,
   RIGHT
 } dir_t;
 
@@ -34,6 +37,7 @@ typedef enum {
 
 
 void setup() {
+  Serial.begin(9600);
   // Motor controller set up:
   pinMode(ENA1, OUTPUT); 
   pinMode(motor1pin1, OUTPUT); 
@@ -49,25 +53,20 @@ void setup() {
   pinMode(5, OUTPUT);
   pinMode(6, INPUT);
   pinMode(7, INPUT);
-  
 
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
   colorL = color_sens(LEFT);
   colorR = color_sens(RIGHT);
 
-
-
-  drive(fwd, turn);
+  //drive(fwd, turn);
 }
 
 
-void drive(fwd_sp, turn_sp) {
+// void drive(fwd_sp, turn_sp) {
 
-}
+// }
 
 
 // outputs:
@@ -75,93 +74,98 @@ void drive(fwd_sp, turn_sp) {
 // 1: RED
 // 2: GREEN
 // 3: BLUE
-void color_sens(dir_t dir) {
+
+color_t color_sens(dir_t dir) {
 
   // get RGB
-  red = read_red(dir);
-  blu = read_blu(dir);
-  grn = read_grn(dir);
+  int red = read_red(dir);
+  int blu = read_blu(dir);
+  int grn = read_grn(dir);
 
   // print values for debug
-  serial.println(dir == RIGHT ? "RIGHT" : "LEFT");
-  
+  Serial.println(dir == RIGHT ? "RIGHT" : "LEFT");
+  Serial.print(red);
+  Serial.print(" ");
+  Serial.print(blu);
+  Serial.print(" ");
+  Serial.println(grn);
 
-  if () return BLACK;
-  else if () return WHITE;
-  else if () return GREEN;
-  else if () return RED;
+  // if () return BLACK;
+  // else if () return WHITE;
+  // else if () return GREEN;
+  // else if () return RED;
 
 }
 
 int read_red(dir_t dir){
   // switch color filter to red -- S2 LOW, S3 LOW
-
+  int col;
   switch (dir)
   {
   case LEFT:
     digitalWrite(S2, LOW);
-    int Lcol = digitalRead(outputL);
-    return Lcol;
-    break;
+    col = pulseIn(outputL, LOW);
+    return col;
+    //break;
   
   case RIGHT:
     digitalWrite(S3, LOW);
-    int Rcol = digitalRead(outputR);
-    return Rcol;
-    break;
+    col = pulseIn(outputR, LOW);
+    return col;
+    //break;
   
   default:
-    serial.println("Error! Invalid direction")
-    break;
+    Serial.println("Error! Invalid direction");
+    //break;
   }
 }
 
 int read_blu(dir_t dir){
   // switch color filter to blue -- S2 LOW, S3 HIGH
-
+  int col;
   switch (dir)
   {
   case LEFT:
     digitalWrite(S2, LOW);
-    int Lcol = digitalRead(outputL);
-    return Lcol;
-    break;
+    col = pulseIn(outputL, LOW);
+    return col;
+    //break;
   
   case RIGHT:
     digitalWrite(S3, HIGH);
-    int Rcol = digitalRead(outputR);
-    return Rcol;
-    break;
+    col = pulseIn(outputR, LOW);
+    return col;
+    //break;
   
   default:
-    serial.println("Error! Invalid direction")
-    break;
+    Serial.println("Error! Invalid direction");
+    //break;
   }
 }
 
-int 
+//int 
 
-
+  
 int read_grn(dir_t dir){
   // switch color filter to green -- S2 HIGH, S3 HIGH
-  
+  int col;
   switch (dir)
   {
   case LEFT:
     digitalWrite(S2, HIGH);
-    int Lcol = digitalRead(outputL);
-    return Lcol;
-    break;
+    col = pulseIn(outputL, LOW);
+    return col;
+    //break;
   
   case RIGHT:
     digitalWrite(S3, HIGH);
-    int Rcol = digitalRead(outputR);
-    return Rcol;
-    break;
+    col = pulseIn(outputR, LOW);
+    return col;
+    //break;
   
   default:
-    serial.println("Error! Invalid direction")
-    break;
+    Serial.println("Error! Invalid direction");
+    //break;
   }
 }
 
