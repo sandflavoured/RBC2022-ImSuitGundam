@@ -1,0 +1,22 @@
+color Sensor left wrt to back wheel and color sensor is down;
+
+pin2 = S0
+pin3 = s1
+pin4 = s2
+pin5 = s3
+pin6 = output
+
+
+color Sensor right wrt to back wheel and color sensor is down;
+
+pin2 = S0
+pin3 = s1
+pin4 = s2
+pin5 = s3
+pin7 = output
+
+
+
+
+
+
