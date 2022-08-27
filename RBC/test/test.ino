@@ -4,11 +4,11 @@
 *********/
 
 // TCS230 or TCS3200 pins wiring to Arduino
-#define S0 4
-#define S1 5
-#define S2 6
-#define S3 7
-#define sensorOut 8
+#define S0 11
+#define S1 13
+#define S2 9
+#define S3 10
+#define sensorOut 12
 
 // Stores frequency read by the photodiodes
 int redFrequency = 0;
@@ -16,9 +16,9 @@ int greenFrequency = 0;
 int blueFrequency = 0;
 
 // Stores the red. green and blue colors
-int redColor = 0;
-int greenColor = 0;
-int blueColor = 0;
+long redColor = 0;
+long greenColor = 0;
+long blueColor = 0;
 
 void setup() {
   // Setting the outputs
