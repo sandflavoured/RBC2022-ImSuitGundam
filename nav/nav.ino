@@ -1,22 +1,11 @@
-// Documentation
-  // Right = Out1
-  // Left = Out2
-  //     ENA -  IN1 - IN2 - Function
-  //1.    H      H     H    L
-  //2.    H      H     L    H (Clockwise)
-  //3.    H      L     H    H (Counter Clockwise)
-  //4.    H      L     L    L   
-
-
-
 // Constants:
 // Pin allocation
-  int ENA1 = 3;
-  int motor1pin1 = 7;
-  int motor1pin2 = 8;
-  int ENA2 = 5; 
-  int motor2pin1 = 2;
-  int motor2pin2 = 4;
+int ENA1 = 3;
+int motor1pin1 = 7;
+int motor1pin2 = 8;
+int ENA2 = 5; 
+int motor2pin1 = 2;
+int motor2pin2 = 4;
 
 typedef enum {
   BLACK = 0,
@@ -130,8 +119,16 @@ void read_grn(){
   int Rcol = digitalRead(outputR);
 }
 
-void motor_control(sp1, dir1, sp2, dir2) { 
 
+// Documentation
+  // Right = Out1
+  // Left = Out2
+  //     ENA -  IN1 - IN2 - Function
+  //1.    H      H     H    L
+  //2.    H      H     L    H (Clockwise)
+  //3.    H      L     H    H (Counter Clockwise)
+  //4.    H      L     L    L   
+void motor_control(int sp1, dir1, sp2, dir2) { 
   analogWrite(ENA1, sp1);
   analogWrite(ENA2, sp2);
 

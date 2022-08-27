@@ -2,8 +2,8 @@ int ENA1 = 3;
 int motor1pin1 = 7;
 int motor1pin2 = 8;
 int ENA2 = 5; 
-int motor2pin1 = 2;
-int motor2pin2 = 4;
+int motor2pin1 = 4;
+int motor2pin2 = 2;
 
 void setup() {
   // put your setup code here, to run once:
