@@ -16,10 +16,10 @@ const int outputL = 6;
 const int outputR = 7;
 
 typedef enum {
-  BLACK = 0,
+  WHITE = 0,
+  BLACK,
   RED,
-  GREEN,
-  BLUE
+  GREEN
 } color_t;
 
 typedef enum {
