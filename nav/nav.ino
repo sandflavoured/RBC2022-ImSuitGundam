@@ -1,11 +1,19 @@
 // Constants:
-// Pin allocation
-int ENA1 = 3;
-int motor1pin1 = 7;
-int motor1pin2 = 8;
-int ENA2 = 5; 
-int motor2pin1 = 2;
-int motor2pin2 = 4;
+// motor pin allocation
+const int ENA1 = 3;
+const int motor1pin1 = 7;
+const int motor1pin2 = 8;
+const int ENA2 = 5; 
+const int motor2pin1 = 2;
+const int motor2pin2 = 4;
+
+// sensor inputs
+const int S0 = 2;
+const int S1 = 3;   
+const int S2 = 4;
+const int S3 = 5;
+const int outputL = 6;
+const int outputR = 7;
 
 typedef enum {
   BLACK = 0,
@@ -41,20 +49,15 @@ void setup() {
   pinMode(5, OUTPUT);
   pinMode(6, INPUT);
   pinMode(7, INPUT);
-  // sensor inputs
-  S0 = 2;
-  S1 = 3;   
-  S2 = 4;
-  S3 = 5;
-  outputL = 6;
-  outputR = 7;
+  
 
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
 
-  colorL = color_sens();
+  colorL = color_sens(LEFT);
+  colorR = color_sens(RIGHT);
 
 
 
@@ -72,12 +75,12 @@ void drive(fwd_sp, turn_sp) {
 // 1: RED
 // 2: GREEN
 // 3: BLUE
-void color_sens() {
+void color_sens(dir_t dir) {
 
   // get RGB
-  red = read_red();
-  blu = read_blu();
-  grn = read_grn();
+  red = read_red(dir);
+  blu = read_blu(dir);
+  grn = read_grn(dir);
 
   if () return BLACK;
   else if () return RED;
@@ -86,37 +89,73 @@ void color_sens() {
 
 }
 
-void read_red(){
+int read_red(dir_t dir){
   // switch color filter to red -- S2 LOW, S3 LOW
 
-  digitalWrite(S2, LOW);
-  digitalWrite(S3, LOW);
-
-  // read value
-  int Lcol = digitalRead(outputL);
-  int Rcol = digitalRead(outputR);
-
-  return 
-}
-
-void read_blu(){
-  // switch color filter to blue -- S2 LOW, S3 HIGH
-  digitalWrite(S2, LOW);
-  digitalWrite(S3, HIGH);
-
-  // read value
-  int Lcol = digitalRead(outputL);
-  int Rcol = digitalRead(outputR);
-}
-
-void read_grn(){
-  // switch color filter to green -- S2 HIGH, S3 HIGH
-  digitalWrite(S2, HIGH);
-  digitalWrite(S3, HIGH);
+  switch (dir)
+  {
+  case LEFT:
+    digitalWrite(S2, LOW);
+    int Lcol = digitalRead(outputL);
+    return Lcol;
+    break;
   
-  // read value
-  int Lcol = digitalRead(outputL);
-  int Rcol = digitalRead(outputR);
+  case RIGHT:
+    digitalWrite(S3, LOW);
+    int Rcol = digitalRead(outputR);
+    return Rcol;
+    break;
+  
+  default:
+    serial.println("Error! Invalid direction")
+    break;
+  }
+}
+
+int read_blu(dir_t dir){
+  // switch color filter to blue -- S2 LOW, S3 HIGH
+
+  switch (dir)
+  {
+  case LEFT:
+    digitalWrite(S2, LOW);
+    int Lcol = digitalRead(outputL);
+    return Lcol;
+    break;
+  
+  case RIGHT:
+    digitalWrite(S3, HIGH);
+    int Rcol = digitalRead(outputR);
+    return Rcol;
+    break;
+  
+  default:
+    serial.println("Error! Invalid direction")
+    break;
+  }
+}
+
+int read_grn(dir_t dir){
+  // switch color filter to green -- S2 HIGH, S3 HIGH
+  
+  switch (dir)
+  {
+  case LEFT:
+    digitalWrite(S2, HIGH);
+    int Lcol = digitalRead(outputL);
+    return Lcol;
+    break;
+  
+  case RIGHT:
+    digitalWrite(S3, HIGH);
+    int Rcol = digitalRead(outputR);
+    return Rcol;
+    break;
+  
+  default:
+    serial.println("Error! Invalid direction")
+    break;
+  }
 }
 
 
@@ -128,7 +167,7 @@ void read_grn(){
   //2.    H      H     L    H (Clockwise)
   //3.    H      L     H    H (Counter Clockwise)
   //4.    H      L     L    L   
-void motor_control(int sp1, dir1, sp2, dir2) { 
+void motor_control(int sp1, int dir1, int sp2, int dir2) { 
   analogWrite(ENA1, sp1);
   analogWrite(ENA2, sp2);
 
