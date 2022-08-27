@@ -1,5 +1,14 @@
 int red, blu, grn;
 
+// Constants:
+// Pin allocation
+  int ENA1 = 3;
+  int motor1pin1 = 7;
+  int motor1pin2 = 8;
+  int ENA2 = 5; 
+  int motor2pin1 = 2;
+  int motor2pin2 = 4;
+
 typedef enum {
   BLACK = 0,
   RED,
@@ -7,18 +16,6 @@ typedef enum {
   BLUE
 } color_t;
 
-
-void setup() {
-  // put your setup code here, to run once:
-
-// Constants:
-// Pin allocation
-int ENA1 = 3;
-int motor1pin1 = 7;
-int motor1pin2 = 8;
-int ENA2 = 5; 
-int motor2pin1 = 2;
-int motor2pin2 = 4;
 
 void setup() {
   // Motor controller set up:
@@ -37,6 +34,7 @@ void setup() {
 void loop() {
   // put your main code here, to run repeatedly:
 
+  color = color_sens();
 
   drive(fwd, turn);
 }
