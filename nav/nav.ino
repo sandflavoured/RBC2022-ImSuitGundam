@@ -1,5 +1,6 @@
 int red, blu, grn;
 
+
 // Constants:
 // Pin allocation
   int ENA1 = 3;
@@ -16,6 +17,11 @@ typedef enum {
   BLUE
 } color_t;
 
+typedef enum {
+  LEFT = 0;
+  RIGHT
+} dir_t
+
 
 void setup() {
   // Motor controller set up:
@@ -27,14 +33,28 @@ void setup() {
   pinMode(motor2pin2, OUTPUT);
 
   // Colour sensor set up
-  // Samin:
+  pinMode(2, OUTPUT);
+  pinMode(3, OUTPUT);
+  pinMode(4, OUTPUT);
+  pinMode(5, OUTPUT);
+  pinMode(6, INPUT);
+  pinMode(7, INPUT);
+  // sensor inputs
+  S0 = 2;
+  S1 = 3;   
+  S2 = 4;
+  S3 = 5;
+  outputL = 6;
+  outputR = 7;
 
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
 
-  color = color_sens();
+  colorL = color_sens();
+
+
 
   drive(fwd, turn);
 }
@@ -65,9 +85,14 @@ void color_sens() {
 }
 
 void read_red(){
-  // switch color filter to red
+  // switch color filter to red -- S2 LOW, 
+
+  digitalWrite(S2, LOW);
+  digitalWrite(S3, LOW);
 
   // read value
+  Lcol = digitalRead(outputL);
+  Rcol = digitalRead(outputR);
 }
 
 void read_blu(){
