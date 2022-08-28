@@ -67,6 +67,8 @@ void setup() {
 
 color_t color_foundL, color_foundR, priority;
 
+int t = 0;
+
 void loop() {
 //  colorL = color_sens(LEFT);
 //  colorR = color_sens(RIGHT);
@@ -75,6 +77,8 @@ void loop() {
   color_foundL = color_sens(LEFT);
   color_foundR = color_sens(RIGHT);
 
+  if (millis() - t > 100){ 
+    t = millis();
   if (color_foundL == color_foundR &&  color_foundR == BLACK) {
     driveForward();// drive straight
     offtrack = false;
@@ -84,19 +88,20 @@ void loop() {
     if (prevL == BLACK && prevR != BLACK) driveLeft();
     else driveRight();
   }
-  else /*if (color_foundL != color_foundR)*/ {
-    priority = max(color_foundL, color_foundR);
-    if (priority == color_foundL ) {
-      driveForward(); // turn left if priority == color_foundL
-      offtrack = false;
-
-    }
-    else{
-      driveForward(); // turn right if priority == color_foundR
-      offtrack = false;
-
-    }
-  }
+  else driveForward();
+//  else /*if (color_foundL != color_foundR)*/ {
+//    priority = max(color_foundL, color_foundR);
+//    if (priority == color_foundL ) {
+//      driveLeft(); // turn left if priority == color_foundL
+//      offtrack = false;
+//
+//    }
+//    else{
+//      driveRight(); // turn right if priority == color_foundR
+//      offtrack = false;
+//
+//    }
+//  }
 
   if (offtrack == false){
     prevL = color_foundL;
@@ -104,6 +109,7 @@ void loop() {
   }
 
 //  offtrack = false;
+  }
 }
 
 
@@ -125,13 +131,17 @@ color_t color_sens(dir_t dir) {
   int blu = read_blu(dir);
   int grn = read_grn(dir);
 
+  int sum = red + blu + grn;
+
   // print values for debug
-  Serial.println(dir == RIGHT ? "RIGHT" : "LEFT");
-  Serial.print(red);
-  Serial.print(" ");
-  Serial.print(grn);
-  Serial.print(" ");
-  Serial.println(blu);
+//  Serial.println(dir == RIGHT ? "RIGHT" : "LEFT");
+//  Serial.print(red);
+//  Serial.print(" ");
+//  Serial.print(grn);
+//  Serial.print(" ");
+//  Serial.print(blu);
+//  Serial.print(" ");
+//  Serial.println(sum, DEC);
 
   // if (red > -70 && red < -30 && grn > 180 && grn < 200 && blu < -80 && blu > -115) return GREEN;
   // else if (red > 260 && red < 300 && blu > -20 && blu < -15 && grn > 295 && grn < 315) return YELLOW;
@@ -143,8 +153,8 @@ color_t color_sens(dir_t dir) {
 //  else if (red < 150 && blu < 150 && grn < 150) return WHITE;
 //  else Serial.println("huh?????");
 
-  if (grn > 390) return WHITE;
-  else if (grn <= 390) return BLACK;
+  if (sum > 1200) return WHITE;
+  else return BLACK;
 
 
 //  if (red > -70 && red < -30 && grn > 180 && grn < 200 && blu < -80 && blu > -115) Serial.println("green");
@@ -276,34 +286,46 @@ void motor_control(int sp1, rot_t dir1, int sp2, rot_t dir2) {
   delay(10);
 }
 
-int left_sp = 120;
-int right_sp = 120;
+int left_sp = 80;
+int right_sp = 80;
 
 int driveForward() {
   Serial.println("GO FORWARD");
-    analogWrite(ENA1, right_sp);
-    analogWrite(ENA2, left_sp);
+    analogWrite(ENA1, right_sp * 2);
+    analogWrite(ENA2, left_sp * 2);
     digitalWrite(motor1pin1, LOW);
     digitalWrite(motor1pin2, HIGH);
     digitalWrite(motor2pin1, HIGH);
     digitalWrite(motor2pin2, LOW);
 
-//    delay(100);
-//
-//    analogWrite(ENA1, 0); // left
-//    analogWrite(ENA2, 0); // right
-//    
-//    delay(100);
+//    delay(50);
+//    analogWrite(ENA1, right_sp);
+//    analogWrite(ENA2, left_sp);
+//    delay(50);
+
+//    int t = millis();
+
+//    if (millis() - t > 100){
+//      analogWrite(ENA1, 0); // left
+//      analogWrite(ENA2, 0); // right
+//    }    
+
+    
 }
 
 int driveLeft(){
   Serial.println("TURN LEFT");
-    analogWrite(ENA1, right_sp * 1.5); // left
-    analogWrite(ENA2, left_sp * 0.0);
+    analogWrite(ENA1, right_sp * 2); // left
+    analogWrite(ENA2, 0);
     digitalWrite(motor1pin1, LOW);
     digitalWrite(motor1pin2, HIGH);
     digitalWrite(motor2pin1, HIGH);
     digitalWrite(motor2pin2, LOW);
+
+//    delay(50);
+//    analogWrite(ENA1, right_sp);
+//    delay(50);
+    
 
 //    delay(100);
 //
@@ -315,12 +337,17 @@ int driveLeft(){
 
 int driveRight(){
   Serial.println("TURN RIGHT");
-    analogWrite(ENA1, right_sp * 0.0); // left
-    analogWrite(ENA2, left_sp * 1.5); // right
+    analogWrite(ENA1, 0); // left
+    analogWrite(ENA2, left_sp * 2); // right
     digitalWrite(motor1pin1, LOW);
     digitalWrite(motor1pin2, HIGH);
     digitalWrite(motor2pin1, HIGH);
     digitalWrite(motor2pin2, LOW);
+
+//    delay(50);
+//    analogWrite(ENA2, left_sp);
+//    delay(50);
+    
 
 //    delay(100);
 //
