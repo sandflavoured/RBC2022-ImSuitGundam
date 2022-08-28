@@ -1,6 +1,10 @@
 // Constants:
 int colorL, colorR;
 
+int base = 130;
+int redCal = 54;
+int bluCal = 47;
+int grnCal = 60;
 
 // motor pin allocation
 const int ENA1 = 3;
@@ -118,13 +122,13 @@ int read_red(dir_t dir){
   case LEFT:
     
     col = pulseIn(outputL, LOW);
-    col = map(col, 70, 120, 255,0);
+    col = map(col, base, redCal, 0,255);
     return col;
     //break;
   
   case RIGHT:
     col = pulseIn(outputR, LOW);
-    col = map(col, 70, 120, 255,0);
+    col = map(col, base, redCal, 0,255);
     return col;
     //break;
   
@@ -146,14 +150,14 @@ int read_blu(dir_t dir){
   case LEFT:
     
     col = pulseIn(outputL, LOW);
-    col = map(col, 38, 84, 255, 0);
+    col = map(col, base, bluCal, 0, 255);
 
     return col;
     //break;
   
   case RIGHT:
     col = pulseIn(outputR, LOW);
-    col = map(col, 38, 84, 255, 0);
+    col = map(col, base, bluCal, 0, 255);
     return col;
     //break;
   
@@ -176,21 +180,21 @@ int read_grn(dir_t dir){
   {
   case LEFT:
     col = pulseIn(outputL, LOW);
-    col = map(col, 100, 199, 255, 0);
+    col = map(col, base, grnCal, 0, 255);
 
     return col;
     //break;
   
   case RIGHT:
     col = pulseIn(outputR, LOW);
-    col = map(col, 100, 199, 255, 0);
+    col = map(col, base, grnCal, 0, 255);
 
     return col;
     //break;
   
   default:
     Serial.println("Error! Invalid direction");
-    //break;
+    break;
   }
 }
 
