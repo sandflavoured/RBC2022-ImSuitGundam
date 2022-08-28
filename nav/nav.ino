@@ -65,6 +65,23 @@ void loop() {
   colorL = color_sens(LEFT);
   colorR = color_sens(RIGHT);
 
+    // put your main code here, to run repeatedly:
+  int color_foundL = color_sens(LEFT);
+  int color_foundR = color_sens(RIGHT);
+
+  if (color_foundL == color_foundR &&  color_foundR == BLACK) {
+    driveForward();// drive straight
+  }
+  else if (color_foundL != color_foundR) {
+    int priority = max(color_foundL, color_foundR);
+    if (priority == color_foundL ) {
+      driveLeft(); // turn left if priority == color_foundL
+    }
+    else{
+      driveRight(); // turn right if priority == color_foundR
+    }
+  }
+
   //drive(fwd, turn);
 }
 
@@ -231,3 +248,33 @@ void motor_control(int sp1, rot_t dir1, int sp2, rot_t dir2) {
   }
   delay(10);
 }
+
+
+int driveForward() {
+    // Forward - 1s
+    analogWrite(ENA1, 140);
+    analogWrite(ENA2, 100);
+    digitalWrite(motor1pin1, LOW);
+    digitalWrite(motor1pin2, HIGH);
+    digitalWrite(motor2pin1, HIGH);
+    digitalWrite(motor2pin2, LOW);
+}
+
+int driveLeft(){
+    analogWrite(ENA1, 160); // left
+    analogWrite(ENA2, 100);
+    digitalWrite(motor1pin1, LOW);
+    digitalWrite(motor1pin2, HIGH);
+    digitalWrite(motor2pin1, HIGH);
+    digitalWrite(motor2pin2, LOW);
+}
+
+int driveRight(){
+    analogWrite(ENA1, 140); // left
+    analogWrite(ENA2, 120); // right
+    digitalWrite(motor1pin1, LOW);
+    digitalWrite(motor1pin2, HIGH);
+    digitalWrite(motor2pin1, HIGH);
+    digitalWrite(motor2pin2, LOW);
+}
+
