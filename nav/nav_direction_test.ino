@@ -68,7 +68,7 @@ void loop() {
   int color_foundR = colorDetector(outputR);
 
   if (color_foundL == color_foundR &&  color_foundR == 3) {
-    driveForward(color_foundL);// drive straight
+    driveForward();// drive straight
   }
   else if (color_foundL != color_foundR) {
     int priority = max(color_foundL, color_foundR);
@@ -164,7 +164,7 @@ int colorDetector(int sensorOut) {
     int detectedColor = 2;
     return detectedColor;
   }
-  if (redColor < redColor && blueColor < greenColor) {
+  if (redColor < blueColor && redColor < greenColor) {
     Serial.println(" - BLACK detected!");
     int detectedColor = 3;
     return detectedColor;
@@ -172,8 +172,7 @@ int colorDetector(int sensorOut) {
 
 }
 ///////////////////////////////////////////////////////
-int driveForward(int detectedColor) {
-  if (detectedColor == 3) {
+int driveForward() {
     // Forward - 1s
     analogWrite(ENA1, 140);
     analogWrite(ENA2, 100);
@@ -181,8 +180,6 @@ int driveForward(int detectedColor) {
     digitalWrite(motor1pin2, HIGH);
     digitalWrite(motor2pin1, HIGH);
     digitalWrite(motor2pin2, LOW);
-
-  }
 }
 
 int driveLeft(){
