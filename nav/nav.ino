@@ -22,6 +22,7 @@ typedef enum {
   WHITE = 0,
   BLACK,
   RED,
+  YELLOW,
   GREEN
 } color_t;
 
@@ -31,7 +32,7 @@ typedef enum {
 } dir_t;
 
 typedef enum {
-  FORWARD = 1,
+  FORWARD = 0,
   BACKWARD
 } rot_t;
 
@@ -100,16 +101,20 @@ color_t color_sens(dir_t dir) {
 int read_red(dir_t dir){
   // switch color filter to red -- S2 LOW, S3 LOW
   int col;
+
+  digitalWrite(S2, LOW);
+  digitalWrite(S3, LOW);
+
   switch (dir)
   {
   case LEFT:
-    digitalWrite(S2, LOW);
+    
     col = pulseIn(outputL, LOW);
+    //col = map(col, )
     return col;
     //break;
   
   case RIGHT:
-    digitalWrite(S3, LOW);
     col = pulseIn(outputR, LOW);
     return col;
     //break;
@@ -123,16 +128,19 @@ int read_red(dir_t dir){
 int read_blu(dir_t dir){
   // switch color filter to blue -- S2 LOW, S3 HIGH
   int col;
+
+  digitalWrite(S2, LOW);
+  digitalWrite(S3, HIGH);
+
   switch (dir)
   {
   case LEFT:
-    digitalWrite(S2, LOW);
+    
     col = pulseIn(outputL, LOW);
     return col;
     //break;
   
   case RIGHT:
-    digitalWrite(S3, HIGH);
     col = pulseIn(outputR, LOW);
     return col;
     //break;
@@ -149,16 +157,17 @@ int read_blu(dir_t dir){
 int read_grn(dir_t dir){
   // switch color filter to green -- S2 HIGH, S3 HIGH
   int col;
+  digitalWrite(S2, HIGH);
+  digitalWrite(S3, HIGH);
+
   switch (dir)
   {
   case LEFT:
-    digitalWrite(S2, HIGH);
     col = pulseIn(outputL, LOW);
     return col;
     //break;
   
   case RIGHT:
-    digitalWrite(S3, HIGH);
     col = pulseIn(outputR, LOW);
     return col;
     //break;
