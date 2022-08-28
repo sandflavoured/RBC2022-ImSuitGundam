@@ -108,15 +108,8 @@ void loop() {
     prevR = color_foundR;
   }
 
-//  offtrack = false;
   }
 }
-
-
-// void drive(fwd_sp, turn_sp) {
-
-// }
-
 
 // outputs:
 // 0: BLACK
@@ -264,7 +257,7 @@ int read_grn(dir_t dir){
 
 void motor_control(int sp1, rot_t dir1, int sp2, rot_t dir2) { 
   analogWrite(ENA1, sp1);
-  analogWrite(ENA2, sp2);
+  analogWrite(ENA2, sp2 + 40);
 
   if (dir1 == FORWARD){
     digitalWrite(motor1pin1, HIGH);
