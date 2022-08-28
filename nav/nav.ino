@@ -91,17 +91,25 @@ color_t color_sens(dir_t dir) {
   Serial.print(" ");
   Serial.println(grn);
 
-  // if () return BLACK;
-  // else if () return WHITE;
-  // else if () return GREEN;
-  // else if () return RED;
+  if (red > -70 && red < -30 && grn > 180 && grn < 200 && blu < -80 && blu > -115) return GREEN;
+  else if (red > 260 && red < 300 && blu > -20 && blu < -15 && grn > 295 && grn < 315) return YELLOW;
+  else if (red > 170 && red < 180 && blu > -115 && blu < -80 && grn > 165 && grn < 185) return RED;
+  else if (red > 10 && red < 45 && blu > -70 && blu < -30 && grn > 190 && grn < 210) return BLACK;
+  else if (red > 220 && red < 260 && blu > 120 && blu < 165 && grn > 305 && grn < 312) return WHITE;
+  else Serial.println("huh?????");
+
+
+  if (red > -70 && red < -30 && grn > 180 && grn < 200 && blu < -80 && blu > -115) Serial.println("green");
+  else if (red > 260 && red < 300 && blu > -20 && blu < -15 && grn > 295 && grn < 315) Serial.println("yellow");
+  else if (red > 170 && red < 180 && blu > -115 && blu < -80 && grn > 165 && grn < 185) Serial.println("red");
+  else if (red > 10 && red < 45 && blu > -70 && blu < -30 && grn > 190 && grn < 210) Serial.println("black");
+  else if (red > 220 && red < 260 && blu > 120 && blu < 165 && grn > 305 && grn < 312) Serial.println("white");
 
 }
 
 int read_red(dir_t dir){
   // switch color filter to red -- S2 LOW, S3 LOW
   int col;
-
   digitalWrite(S2, LOW);
   digitalWrite(S3, LOW);
 
@@ -110,12 +118,13 @@ int read_red(dir_t dir){
   case LEFT:
     
     col = pulseIn(outputL, LOW);
-    //col = map(col, )
+    col = map(col, 70, 120, 255,0);
     return col;
     //break;
   
   case RIGHT:
     col = pulseIn(outputR, LOW);
+    col = map(col, 70, 120, 255,0);
     return col;
     //break;
   
@@ -137,11 +146,14 @@ int read_blu(dir_t dir){
   case LEFT:
     
     col = pulseIn(outputL, LOW);
+    col = map(col, 38, 84, 255, 0);
+
     return col;
     //break;
   
   case RIGHT:
     col = pulseIn(outputR, LOW);
+    col = map(col, 38, 84, 255, 0);
     return col;
     //break;
   
@@ -164,11 +176,15 @@ int read_grn(dir_t dir){
   {
   case LEFT:
     col = pulseIn(outputL, LOW);
+    col = map(col, 100, 199, 255, 0);
+
     return col;
     //break;
   
   case RIGHT:
     col = pulseIn(outputR, LOW);
+    col = map(col, 100, 199, 255, 0);
+
     return col;
     //break;
   
