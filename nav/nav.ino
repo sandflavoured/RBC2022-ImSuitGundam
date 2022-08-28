@@ -1,5 +1,7 @@
 // Constants:
-int colorL, colorR;
+// int colorL, colorR;
+
+bool offtrack;
 
 int base = 130;
 int redCal = 54;
@@ -29,6 +31,8 @@ typedef enum {
   YELLOW,
   GREEN
 } color_t;
+
+color_t prevL, prevR;
 
 typedef enum {
   LEFT = 0,
@@ -61,28 +65,45 @@ void setup() {
 
 }
 
+color_t color_foundL, color_foundR, priority;
+
 void loop() {
-  colorL = color_sens(LEFT);
-  colorR = color_sens(RIGHT);
+//  colorL = color_sens(LEFT);
+//  colorR = color_sens(RIGHT);
 
     // put your main code here, to run repeatedly:
-  int color_foundL = color_sens(LEFT);
-  int color_foundR = color_sens(RIGHT);
+  color_foundL = color_sens(LEFT);
+  color_foundR = color_sens(RIGHT);
 
   if (color_foundL == color_foundR &&  color_foundR == BLACK) {
     driveForward();// drive straight
+    offtrack = false;
   }
-  else if (color_foundL != color_foundR) {
-    int priority = max(color_foundL, color_foundR);
+  else if (color_foundL == color_foundR &&  color_foundR == WHITE) {
+    offtrack = true;
+    if (prevL == BLACK && prevR != BLACK) driveLeft();
+    else driveRight();
+  }
+  else /*if (color_foundL != color_foundR)*/ {
+    priority = max(color_foundL, color_foundR);
     if (priority == color_foundL ) {
-      driveLeft(); // turn left if priority == color_foundL
+      driveForward(); // turn left if priority == color_foundL
+      offtrack = false;
+
     }
     else{
-      driveRight(); // turn right if priority == color_foundR
+      driveForward(); // turn right if priority == color_foundR
+      offtrack = false;
+
     }
   }
 
-  //drive(fwd, turn);
+  if (offtrack == false){
+    prevL = color_foundL;
+    prevR = color_foundR;
+  }
+
+//  offtrack = false;
 }
 
 
@@ -108,23 +129,29 @@ color_t color_sens(dir_t dir) {
   Serial.println(dir == RIGHT ? "RIGHT" : "LEFT");
   Serial.print(red);
   Serial.print(" ");
-  Serial.print(blu);
+  Serial.print(grn);
   Serial.print(" ");
-  Serial.println(grn);
+  Serial.println(blu);
 
-  if (red > -70 && red < -30 && grn > 180 && grn < 200 && blu < -80 && blu > -115) return GREEN;
-  else if (red > 260 && red < 300 && blu > -20 && blu < -15 && grn > 295 && grn < 315) return YELLOW;
-  else if (red > 170 && red < 180 && blu > -115 && blu < -80 && grn > 165 && grn < 185) return RED;
-  else if (red > 10 && red < 45 && blu > -70 && blu < -30 && grn > 190 && grn < 210) return BLACK;
-  else if (red > 220 && red < 260 && blu > 120 && blu < 165 && grn > 305 && grn < 312) return WHITE;
-  else Serial.println("huh?????");
+  // if (red > -70 && red < -30 && grn > 180 && grn < 200 && blu < -80 && blu > -115) return GREEN;
+  // else if (red > 260 && red < 300 && blu > -20 && blu < -15 && grn > 295 && grn < 315) return YELLOW;
+  // else if (red > 170 && red < 180 && blu > -115 && blu < -80 && grn > 165 && grn < 185) return RED;
+  // else if (red > 10 && red < 45 && blu > -70 && blu < -30 && grn > 190 && grn < 210) return BLACK;
+  // else if (red > 220 && red < 260 && blu > 120 && blu < 165 && grn > 305 && grn < 312) return WHITE;
+
+//  if (red > 150 && blu > 150 && grn > 150) return BLACK;
+//  else if (red < 150 && blu < 150 && grn < 150) return WHITE;
+//  else Serial.println("huh?????");
+
+  if (grn > 390) return WHITE;
+  else if (grn <= 390) return BLACK;
 
 
-  if (red > -70 && red < -30 && grn > 180 && grn < 200 && blu < -80 && blu > -115) Serial.println("green");
-  else if (red > 260 && red < 300 && blu > -20 && blu < -15 && grn > 295 && grn < 315) Serial.println("yellow");
-  else if (red > 170 && red < 180 && blu > -115 && blu < -80 && grn > 165 && grn < 185) Serial.println("red");
-  else if (red > 10 && red < 45 && blu > -70 && blu < -30 && grn > 190 && grn < 210) Serial.println("black");
-  else if (red > 220 && red < 260 && blu > 120 && blu < 165 && grn > 305 && grn < 312) Serial.println("white");
+//  if (red > -70 && red < -30 && grn > 180 && grn < 200 && blu < -80 && blu > -115) Serial.println("green");
+//  else if (red > 260 && red < 300 && blu > -20 && blu < -15 && grn > 295 && grn < 315) Serial.println("yellow");
+//  else if (red > 170 && red < 180 && blu > -115 && blu < -80 && grn > 165 && grn < 185) Serial.println("red");
+//  else if (red > 10 && red < 45 && blu > -70 && blu < -30 && grn > 190 && grn < 210) Serial.println("black");
+//  else if (red > 220 && red < 260 && blu > 120 && blu < 165 && grn > 305 && grn < 312) Serial.println("white");
 
 }
 
@@ -249,32 +276,56 @@ void motor_control(int sp1, rot_t dir1, int sp2, rot_t dir2) {
   delay(10);
 }
 
+int left_sp = 120;
+int right_sp = 120;
 
 int driveForward() {
-    // Forward - 1s
-    analogWrite(ENA1, 140);
-    analogWrite(ENA2, 100);
+  Serial.println("GO FORWARD");
+    analogWrite(ENA1, right_sp);
+    analogWrite(ENA2, left_sp);
     digitalWrite(motor1pin1, LOW);
     digitalWrite(motor1pin2, HIGH);
     digitalWrite(motor2pin1, HIGH);
     digitalWrite(motor2pin2, LOW);
+
+//    delay(100);
+//
+//    analogWrite(ENA1, 0); // left
+//    analogWrite(ENA2, 0); // right
+//    
+//    delay(100);
 }
 
 int driveLeft(){
-    analogWrite(ENA1, 160); // left
-    analogWrite(ENA2, 100);
+  Serial.println("TURN LEFT");
+    analogWrite(ENA1, right_sp * 1.5); // left
+    analogWrite(ENA2, left_sp * 0.0);
     digitalWrite(motor1pin1, LOW);
     digitalWrite(motor1pin2, HIGH);
     digitalWrite(motor2pin1, HIGH);
     digitalWrite(motor2pin2, LOW);
+
+//    delay(100);
+//
+//    analogWrite(ENA1, 0); // left
+//    analogWrite(ENA2, 0); // right
+//    
+//    delay(100);
 }
 
 int driveRight(){
-    analogWrite(ENA1, 140); // left
-    analogWrite(ENA2, 120); // right
+  Serial.println("TURN RIGHT");
+    analogWrite(ENA1, right_sp * 0.0); // left
+    analogWrite(ENA2, left_sp * 1.5); // right
     digitalWrite(motor1pin1, LOW);
     digitalWrite(motor1pin2, HIGH);
     digitalWrite(motor2pin1, HIGH);
     digitalWrite(motor2pin2, LOW);
-}
 
+//    delay(100);
+//
+//    analogWrite(ENA1, 0); // left
+//    analogWrite(ENA2, 0); // right
+//    
+//    delay(100);
+}
